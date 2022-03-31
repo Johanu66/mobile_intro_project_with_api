@@ -1,5 +1,5 @@
 # Membres du groupe :
-## AWIGNAN Isaac
-## GANDONOU Johanu
-## TCHAGNONSI Esaie
-## TOVIEGBE Delphine
+## 1- AWIGNAN Isaac GL
+## 2- GANDONOU Johanu GL
+## 3- TCHAGNONSI Esaie GL
+## 4- TOVIEGBE Delphine GL
