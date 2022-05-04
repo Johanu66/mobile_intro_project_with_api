@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Delete an person
-  void _deletePerson(int id) async {
+  void _deletePerson(String id) async {
     await SQLHelper.deletePerson(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted a journal!'),
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(_journals[index]['firstname']),
             subtitle: Text(_journals[index]['lastname']),
             trailing: SizedBox(
-              width: 150,
+              width: 100,
               child: Row(
                 children: [
                   IconButton(
@@ -99,11 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                   ),
-                  IconButton(
+                  /*IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () =>
                         _deletePerson(_journals[index]['id']),
-                  ),
+                  ),*/
                 ],
               ),
             )

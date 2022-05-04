@@ -5,12 +5,19 @@ import 'package:mobile_intro_project/main.dart';
 import 'package:mobile_intro_project/sql_helper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:mobile_intro_project/main.dart';
+import 'package:mobile_intro_project/sql_helper.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ShowForm extends StatefulWidget {
   @override
   _ShowForm createState() => _ShowForm();
 
-  int? id;
+  String? id;
 
   ShowForm({Key? key, this.id}) : super(key: key);
 
@@ -21,10 +28,8 @@ class _ShowForm extends State<ShowForm> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
-  String? _birthday = '';
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _mailController = TextEditingController();
   String? _gender;
   String? _picture;
   final TextEditingController _citationController = TextEditingController();
@@ -37,13 +42,11 @@ class _ShowForm extends State<ShowForm> {
       setState(() {
           // id == null -> create new person
           // id != null -> update an existing person
-          final existingJournal = data.first;
+          final existingJournal = data;
           _firstnameController.text = existingJournal['firstname'];
           _lastnameController.text = existingJournal['lastname'];
-          _birthday = existingJournal['birthday'];
-          _addressController.text = existingJournal['address'];
+          _addressController.text = existingJournal['adress'];
           _phoneController.text = existingJournal['phone'];
-          _mailController.text = existingJournal['mail'];
           _gender = existingJournal['gender'];
           _picture = existingJournal['picture'];
           _citationController.text = existingJournal['citation'];
@@ -122,16 +125,6 @@ class _ShowForm extends State<ShowForm> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextFormField(
-                    controller: _mailController,
-                    decoration: const InputDecoration(hintText: 'Mail'),
-                    validator: (String? value){
-                      return (value==null || value=="") ? "This field is required" : null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   DropdownButtonFormField(
                     hint: const Text("Sexe"),
                     value: _gender,
@@ -160,28 +153,6 @@ class _ShowForm extends State<ShowForm> {
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  Center(child: Text(_birthday.toString())),
-                  Center(
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          DateTime? birthDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1980),
-                              lastDate: DateTime.now()
-                          );
-                          setState(() {
-                            if(birthDate!=null){
-                              _birthday = "${birthDate.month}/${birthDate.day}/${birthDate.year}";
-                            }
-                          });
-                        },
-                        child: const Text("Click here to choose your date of birth.")
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   _picture!=null ? Image.file(File(_picture!)) : Container(),
                   Center(
@@ -225,10 +196,8 @@ class _ShowForm extends State<ShowForm> {
                           //id=null;
                           _firstnameController.text = '';
                           _lastnameController.text = '';
-                          _birthday = '';
                           _addressController.text = '';
                           _phoneController.text = '';
-                          _mailController.text = '';
                           _gender = null;
                           _picture = '';
                           _citationController.text = '';
@@ -258,30 +227,32 @@ class _ShowForm extends State<ShowForm> {
     await SQLHelper.createPerson(
         _firstnameController.text,
         _lastnameController.text,
-        _birthday,
         _addressController.text,
         _phoneController.text,
-        _mailController.text,
         _gender,
         _picture,
         _citationController.text
     );
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('User successfully added!'),
+    ));
   }
 
   // Update an existing journal
-  Future<void> _updatePerson(int id) async {
+  Future<void> _updatePerson(String id) async {
     await SQLHelper.updatePerson(
         id,
         _firstnameController.text,
         _lastnameController.text,
-        _birthday,
         _addressController.text,
         _phoneController.text,
-        _mailController.text,
         _gender,
         _picture,
         _citationController.text
     );
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('User successfully updated !'),
+    ));
   }
 
   Future<File> saveFilePermanently(PlatformFile file) async {
