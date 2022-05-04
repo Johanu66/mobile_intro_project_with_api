@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intro_project/show_form.dart';
 import 'package:mobile_intro_project/show_person.dart';
-import 'sql_helper.dart';
+import 'api_helper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isLoading = true;
   // This function is used to fetch all data from the database
   void _refreshJournals() async {
-    final data = await SQLHelper.getPersons();
+    final data = await APIHelper.getPersons();
     setState(() {
       _journals = data;
       _isLoading = false;
@@ -47,15 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _refreshJournals(); // Loading the diary when the app starts
-  }
-
-  // Delete an person
-  void _deletePerson(String id) async {
-    await SQLHelper.deletePerson(id);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Successfully deleted a journal!'),
-    ));
-    _refreshJournals();
   }
 
   @override

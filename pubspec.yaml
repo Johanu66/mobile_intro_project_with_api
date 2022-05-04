@@ -39,7 +39,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sqflite: ^2.0.2
   file_picker: ^4.5.1
   path_provider: ^2.0.9
 

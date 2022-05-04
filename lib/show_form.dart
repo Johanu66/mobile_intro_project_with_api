@@ -2,14 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_intro_project/main.dart';
-import 'package:mobile_intro_project/sql_helper.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:mobile_intro_project/main.dart';
-import 'package:mobile_intro_project/sql_helper.dart';
+import 'package:mobile_intro_project/api_helper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -38,7 +31,7 @@ class _ShowForm extends State<ShowForm> {
 
   _refreshFrom() async {
     if (widget.id != null) {
-      final data = await SQLHelper.getPerson(widget.id!);
+      final data = await APIHelper.getPerson(widget.id!);
       setState(() {
           // id == null -> create new person
           // id != null -> update an existing person
@@ -224,7 +217,7 @@ class _ShowForm extends State<ShowForm> {
 
   // Insert a new journal to the database
   Future<void> _addPerson() async {
-    await SQLHelper.createPerson(
+    await APIHelper.createPerson(
         _firstnameController.text,
         _lastnameController.text,
         _addressController.text,
@@ -240,7 +233,7 @@ class _ShowForm extends State<ShowForm> {
 
   // Update an existing journal
   Future<void> _updatePerson(String id) async {
-    await SQLHelper.updatePerson(
+    await APIHelper.updatePerson(
         id,
         _firstnameController.text,
         _lastnameController.text,

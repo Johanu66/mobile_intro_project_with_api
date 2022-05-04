@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:mobile_intro_project/sql_helper.dart';
+import 'package:mobile_intro_project/api_helper.dart';
 
 class ShowPerson extends StatefulWidget {
   @override
@@ -18,7 +16,7 @@ class _ShowPerson extends State<ShowPerson> {
   bool isLoading = true;
 
   _refreshPerson() async {
-    final data = await SQLHelper.getPerson(widget.id);
+    final data = await APIHelper.getPerson(widget.id);
     setState(() {
       person = data;
       isLoading = false;
