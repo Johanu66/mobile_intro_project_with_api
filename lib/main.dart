@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_intro_project/show_form.dart';
 import 'package:mobile_intro_project/show_person.dart';
@@ -43,6 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _myImage(String? image){
+    if(image==null || image==""){
+      return ClipRRect(borderRadius: BorderRadius.circular(30.0), child: Image.asset("assets/default_picture.png", width: 30, height: 30,fit:BoxFit.fill));
+    }
+    return ClipRRect(borderRadius: BorderRadius.circular(30.0), child: Image.file(File(image), width: 30, height: 30,fit:BoxFit.fill));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -65,7 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Colors.blue[100],
           margin: const EdgeInsets.all(15),
           child: ListTile(
-            //leading: Image.asset(_journals[index]['picture']),
+            leading: SizedBox(
+              width: 50,
+              height: 50,
+              child: _myImage(_journals[index]['picture']),
+            ),
             title: Text(_journals[index]['firstname']),
             subtitle: Text(_journals[index]['lastname']),
             trailing: SizedBox(
